@@ -41,24 +41,58 @@ public class Kfc {
 	private JTextField lblTotal;
 	private JTextField lblSubTotal;
 	private JTextField lblTax;
-	
-	
-	
-	double Nigerian_Naria = 302.92;
-	double US_Dollar = 1.52;
-	double Kenyan_Shilling = 156.12;
-	double Brazilian_Real = 5.86;
-	double Canadian_Dollar = 2.03;
-	double Indian_Rupee = 100.68;
-	double Philippine_Peso = 71.74;
-	double Indonesiah_Rupiah = 20746.74;
 	protected JLabel lblCurrencyConverter;
 	
-	double Firstnum;
-	double Secondnum;
-	double result;
-	String operations;
-	String answer;
+	public static double Nigerian_Naria = 302.92;
+	public static double US_Dollar = 1.52;
+	public static double Kenyan_Shilling = 156.12;
+	public static double Brazilian_Real = 5.86;
+	public static double Canadian_Dollar = 2.03;
+	public static double Indian_Rupee = 100.68;
+	public static double Philippine_Peso = 71.74;
+	public static double Indonesiah_Rupiah = 20746.74;
+	
+	public static double iChickenBurgerPrice = 15.39;
+	public static double iChickenBurgerMealPrice = 20.39; 
+	public static double iCheeseBurgerPrice = 25.39;
+	
+	static double Firstnum;
+	static double Secondnum;
+	static double result;
+	static String operations;
+	static  String answer;
+	
+	public void Cost()
+	   {
+        //Calculating the cost of the items
+		double ChickenBurger = Double.parseDouble(txtChickenBurger.getText()); 
+		double Burger;
+		Burger = (ChickenBurger * iChickenBurgerPrice);
+		String pMeal = String.format("%.2f", Burger);
+		lblCostMeal.setText(pMeal);
+		
+		double ChickenBurgerMeal = Double.parseDouble(txtChickenBurgerMeal.getText());
+		double BurgerMeal;
+		BurgerMeal = (ChickenBurgerMeal * iChickenBurgerMealPrice);
+		String cbMeal = String.format("%.2f",BurgerMeal + Burger);
+		lblCostMeal.setText(cbMeal);
+		
+		double CheeseBurger = Double.parseDouble(txtCheeseBurger.getText());
+		double CheeseBurgerMeal;
+		CheeseBurgerMeal = (CheeseBurger * iCheeseBurgerPrice);
+		String CheeseMeal = String.format("%.2f",CheeseBurgerMeal +BurgerMeal + Burger);
+		lblCostMeal.setText(CheeseMeal);
+	   }
+	
+	public void Total()
+	   {
+	       
+	   }
+	
+	public void Rest_form()
+	   {
+	       
+	   }
 	/**
 	 * Launch the application.
 	 */
@@ -80,17 +114,22 @@ public class Kfc {
 	 */
 	public Kfc() {
 		initialize();
+		
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	public void Rest_forma()
+	   {
+	       
+	   }
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 955, 636);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		panel.setBounds(10, 61, 344, 256);
@@ -775,26 +814,8 @@ public class Kfc {
 			public void actionPerformed(ActionEvent e) {
 				textArea.setText(null);
 				
-				double ChickenBurger = Double.parseDouble(txtChickenBurger.getText()); 
-				double iChickenBurgerPrice = 15.39;
-				double Burger;
-				Burger = (ChickenBurger * iChickenBurgerPrice);
-				String pMeal = String.format("%.2f", Burger);
-				lblCostMeal.setText(pMeal);
-				
-				double ChickenBurgerMeal = Double.parseDouble(txtChickenBurgerMeal.getText()); 
-				double iChickenBurgerMealPrice = 20.39;
-				double BurgerMeal;
-				BurgerMeal = (ChickenBurgerMeal * iChickenBurgerMealPrice);
-				String cbMeal = String.format("%.2f",BurgerMeal + Burger);
-				lblCostMeal.setText(cbMeal);
-				
-				double CheeseBurger = Double.parseDouble(txtCheeseBurger.getText()); 
-				double iCheeseBurgerPrice = 25.39;
-				double CheeseBurgerMeal;
-				CheeseBurgerMeal = (CheeseBurger * iCheeseBurgerPrice);
-				String CheeseMeal = String.format("%.2f",CheeseBurgerMeal +BurgerMeal + Burger);
-				lblCostMeal.setText(CheeseMeal);
+				//Calling method Cost
+				Cost();
 				
 				//-----------------------------------Home Delivery--------------------------------
 				double iDelivery = 5.39;
