@@ -55,14 +55,24 @@ public class Kfc {
 	public static double iChickenBurgerPrice = 15.39;
 	public static double iChickenBurgerMealPrice = 20.39; 
 	public static double iCheeseBurgerPrice = 25.39;
+	public static double iDelivery = 5.39;
+	
+	JCheckBox chkHomeDelivery = new JCheckBox("Home Delivery");
+	JComboBox<String> cmbCurrencyConverter = new JComboBox<>();
+	JComboBox<String> cmbDrink = new JComboBox<>();
+	JCheckBox chkTax = new JCheckBox("Tax");
+	JTextArea textArea = new JTextArea();
+	
+	
 	
 	static double Firstnum;
 	static double Secondnum;
 	static double result;
 	static String operations;
 	static  String answer;
+	private JTextField lblCurrencyConverters;
 	
-	public void Cost()
+	public void mealCost()
 	   {
         //Calculating the cost of the items
 		double ChickenBurger = Double.parseDouble(txtChickenBurger.getText()); 
@@ -84,15 +94,268 @@ public class Kfc {
 		lblCostMeal.setText(CheeseMeal);
 	   }
 	
-	public void Total()
+    public void deliveryCost()
+    {
+		//Getting the delivery price
+		if(chkHomeDelivery.isSelected())
+		{
+			String pDelivery = String.format("%.2f", iDelivery);
+			lblCostDelivery.setText(pDelivery);
+		}
+		else
+		{
+			lblCostDelivery.setText("0.00");
+		}
+    }
+	
+	public void drinkCost()
 	   {
-	       
+        //Getting the price a drink
+		double Drinks = Double.parseDouble(txtQty.getText());
+		double Tea = 10.39 * Drinks;
+		double Ice_Tea = 11.39 * Drinks;
+		double Coffee = 12.39 * Drinks;
+		double Ice_Coffee = 14.39 * Drinks;
+		double Cola = 16.39 * Drinks;
+		double Coke = 7.39 * Drinks;
+		double Orange = 8.39 * Drinks;
+		double Apple_justice = 15.39 * Drinks;
+		
+		if(cmbDrink.getSelectedItem().equals("Apple juice"))
+		{
+			String cApple_Juice = String.format("%.2f", Apple_justice);
+			lblCostDrinks.setText(cApple_Juice);
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Coke"))
+		{
+			String cCoke = String.format("%.2f", Coke);
+			lblCostDrinks.setText(cCoke);
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Cola"))
+		{
+			String cCola = String.format("%.2f", Cola);
+			lblCostDrinks.setText(cCola);
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Ice Coffee"))
+		{
+			String cIce_Coffee = String.format("%.2f", Ice_Coffee);
+			lblCostDrinks.setText(cIce_Coffee);
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Ice Tea"))
+		{
+			String cIce_Tea = String.format("%.2f", Ice_Tea);
+			lblCostDrinks.setText(cIce_Tea);
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Tea"))
+		{
+			String cTea = String.format("%.2f", Tea);
+			lblCostDrinks.setText(cTea);
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Orange"))
+		{
+			String cOrange = String.format("%.2f", Orange);
+			lblCostDrinks.setText(cOrange);
+		}
+		
+		if(cmbDrink.getSelectedItem().equals("Coffee"))
+		{
+			String cOrange = String.format("%.2f", Coffee);
+			lblCostDrinks.setText(cOrange);
+		}
+		
+		if(cmbDrink.getSelectedItem().equals("Select a drink"))
+		{
+			lblCostDrinks.setText("0.00");
+		}
 	   }
 	
-	public void Rest_form()
-	   {
-	       
-	   }
+	public void taxCost()
+	{
+		double cTotal1 = Double.parseDouble(lblCostMeal.getText());
+		double cTotal2 = Double.parseDouble(lblCostDelivery.getText());
+		double cTotal3 = Double.parseDouble(lblCostDrinks.getText());
+		double AllTotal = (cTotal1 + cTotal2 + cTotal3)/100;
+		double cTotal4 = 0;
+		//Getting the tax cost
+		if(chkTax.isSelected())
+		{
+			String iTotalTax = String.format("%.2f", AllTotal);
+			lblTax.setText(iTotalTax);
+			cTotal4 = Double.parseDouble(lblTax.getText());
+		}
+	}
+	
+	public void totalCost()
+	{
+		double cTotal1 = Double.parseDouble(lblCostMeal.getText());
+		double cTotal2 = Double.parseDouble(lblCostDelivery.getText());
+		double cTotal3 = Double.parseDouble(lblCostDrinks.getText());
+		double AllTotal = (cTotal1 + cTotal2 + cTotal3)/100;
+		double cTotal4 = 0;
+		//Getting the total cost
+		double SubTotal = ((cTotal1 + cTotal2 + cTotal3) - (cTotal4));
+		String iSubTotal = String.format("%.2f", SubTotal);
+		lblSubTotal.setText(iSubTotal);
+		
+		double iAllTotal = (SubTotal + cTotal4);
+		String iTotal = String.format("%.2f", iAllTotal);
+		lblTotal.setText(iTotal);
+		
+		String iTaxTotal = String.format("%.2f", cTotal4);
+		lblTax.setText(iTaxTotal);
+	}
+	
+	public void reset()
+	{
+		//Reseting the form
+		lblCostDrinks.setText(null);
+		lblCostMeal.setText(null);
+		lblCostDelivery.setText(null);
+		lblTax.setText(null);
+		lblSubTotal.setText(null);
+		lblTotal.setText(null);
+		lblCurrencyConverters.setText(null);
+		txtChickenBurger.setText(null);
+		txtChickenBurgerMeal.setText(null);
+		txtCheeseBurger.setText(null);
+		txtQty.setText(null);
+		txtCurrencyConverter.setText(null);
+		cmbDrink.setSelectedItem("Select a drink");
+		cmbCurrencyConverter.setSelectedItem("Choose One...");
+	}
+	
+	public void receipt()
+	{
+		double cTotal1 = Double.parseDouble(lblCostMeal.getText());
+		double cTotal2 = Double.parseDouble(lblCostDelivery.getText());
+		double cTotal3 = Double.parseDouble(lblCostDrinks.getText());
+		double AllTotal = (cTotal1 + cTotal2 + cTotal3)/100;
+		
+		if(chkTax.isSelected())
+		{
+			String iTotal = String.format("%.2f", AllTotal);
+			lblTax.setText(iTotal);
+		}
+		//-----------------------------------Total--------------------------------
+		
+		double Drinks = Double.parseDouble(txtQty.getText());
+		double Tea = 10.39 * Drinks;
+		double Ice_Tea = 11.39 * Drinks;
+		double Coffee = 12.39 * Drinks;
+		double Ice_Coffee = 14.39 * Drinks;
+		double Cola = 16.39 * Drinks;
+		double Coke = 7.39 * Drinks;
+		double Orange = 8.39 * Drinks;
+		double Apple_justice = 15.39 * Drinks;
+		
+		double cTotal4 = Double.parseDouble(lblTax.getText());
+		
+		double SubTotal = ((cTotal1 + cTotal2 + cTotal3) - (cTotal4));
+		String iSubTotal = String.format("%.2f", SubTotal);
+		lblSubTotal.setText(iSubTotal);
+		
+		double iAllTotal = (cTotal1 + cTotal2 + cTotal3 + cTotal4);
+		String iTotal = String.format("%.2f", iAllTotal);
+		lblTotal.setText(iTotal);
+		
+		String iTaxTotal = String.format("%.2f", cTotal4);
+		lblTax.setText(iTaxTotal);
+		
+		Date date = new Date();
+		
+		textArea.setText(textArea.getText() + "                                         \n");
+		textArea.setText(textArea.getText() + "                   KFC Restaurant\n");
+		textArea.setText(textArea.getText() + "                Rosebank Johannesburg\n");
+		textArea.setText(textArea.getText() + "                                         \n");
+		textArea.setText(textArea.getText() + "Date : " + date + "\n");
+		textArea.setText(textArea.getText() + "                                         \n");
+		textArea.setText(textArea.getText() + "Receipt #: 042586\n");
+		textArea.setText(textArea.getText() + "                                         \n");
+		
+		textArea.setText(textArea.getText() + "Chicken Burger : " + txtChickenBurger.getText() + " * " + iChickenBurgerPrice +"\n");
+		textArea.setText(textArea.getText() + "Chicken Burger Meal : " + txtChickenBurgerMeal.getText() + " * " + iChickenBurgerMealPrice +"\n");
+		textArea.setText(textArea.getText() + "Bacon & Cheese Burger : " + txtCheeseBurger.getText() + " * " + iCheeseBurgerPrice +"\n"); 
+		
+		if(cmbDrink.getSelectedItem().equals("Apple juice"))
+		{
+			String cApple_Juice = String.format("%.2f", Apple_justice);
+			lblCostDrinks.setText(cApple_Juice);
+			textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Apple_justice + "\n");
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Coke"))
+		{
+			String cCoke = String.format("%.2f", Coke);
+			lblCostDrinks.setText(cCoke);
+			textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Coke + "\n");
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Cola"))
+		{
+			String cCola = String.format("%.2f", Cola);
+			lblCostDrinks.setText(cCola);
+			textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Cola + "\n");
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Ice Coffee"))
+		{
+			String cIce_Coffee = String.format("%.2f", Ice_Coffee);
+			lblCostDrinks.setText(cIce_Coffee);
+			textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Ice_Coffee + "\n");
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Ice Tea"))
+		{
+			String cIce_Tea = String.format("%.2f", Ice_Tea);
+			lblCostDrinks.setText(cIce_Tea);
+			textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Ice_Tea + "\n");
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Tea"))
+		{
+			String cTea = String.format("%.2f", Tea);
+			lblCostDrinks.setText(cTea);
+			textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Tea + "\n");
+		}
+		
+	    if(cmbDrink.getSelectedItem().equals("Orange"))
+		{
+			String cOrange = String.format("%.2f", Orange);
+			lblCostDrinks.setText(cOrange);
+			textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Orange + "\n");
+		}
+		
+		if(cmbDrink.getSelectedItem().equals("Coffee"))
+		{
+			String cOrange = String.format("%.2f", Coffee);
+			lblCostDrinks.setText(cOrange);
+			textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Coffee + "\n");
+		}
+		
+		if(cmbDrink.getSelectedItem().equals("Select a drink"))
+		{
+			lblCostDrinks.setText("0.00");
+			textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + "* 0" + "\n");
+		}
+		
+		textArea.setText(textArea.getText() + "                                         \n");
+		textArea.setText(textArea.getText() + "Cost of Drinks : " + lblCostDrinks.getText() + "\n");
+		textArea.setText(textArea.getText() + "Cost of Meal : " + lblCostMeal.getText() + "\n");
+		textArea.setText(textArea.getText() + "Cost of Delivery : " + lblCostDelivery.getText() + "\n");
+		textArea.setText(textArea.getText() + "                                         \n");
+		textArea.setText(textArea.getText() + "Sub Total : " + iSubTotal + "\n");
+		textArea.setText(textArea.getText() + "Sale Tax : " + iTaxTotal + "\n");
+		textArea.setText(textArea.getText() + "Total : " + iTotal + "\n");
+		textArea.setText(textArea.getText() + "                                         \n");
+		textArea.setText(textArea.getText() + "                   THANK YOU\n");
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -183,17 +446,16 @@ public class Kfc {
 		lblQty.setBounds(181, 158, 150, 25);
 		panel.add(lblQty);
 		
-		JCheckBox chkTax = new JCheckBox("Tax");
 		chkTax.setFont(new Font("Tahoma", Font.BOLD, 15));
 		chkTax.setBounds(177, 213, 85, 23);
 		panel.add(chkTax);
 		
-		JCheckBox chkHomeDelivery = new JCheckBox("Home Delivery");
+		
 		chkHomeDelivery.setFont(new Font("Tahoma", Font.BOLD, 15));
 		chkHomeDelivery.setBounds(6, 213, 150, 23);
 		panel.add(chkHomeDelivery);
 		
-		JComboBox<String> cmbDrink = new JComboBox<>();
+		
 		cmbDrink.setModel(new DefaultComboBoxModel<String>(new String[] {"Select a drink", "Apple juice", "Tea", "Cola", "Coke", "Coffee", "Ice Tea", "Ice Coffee", "Orange"}));
 		cmbDrink.setBounds(10, 182, 150, 20);
 		panel.add(cmbDrink);
@@ -223,7 +485,7 @@ public class Kfc {
 		tabbedPane.addTab("Receipt", null, txtReceipts, null);
 		txtReceipts.setLayout(null);
 		
-		JTextArea textArea = new JTextArea();
+		
 		textArea.setBounds(10, 11, 296, 375);
 		txtReceipts.add(textArea);
 		
@@ -545,15 +807,6 @@ public class Kfc {
 		txtCurrencyConverter.setBounds(10, 99, 194, 20);
 		panel_2.add(txtCurrencyConverter);
 		
-		JLabel lblCurrencyConverter = new JLabel("");
-		lblCurrencyConverter.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCurrencyConverter.setForeground(Color.BLACK);
-		lblCurrencyConverter.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblCurrencyConverter.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-		lblCurrencyConverter.setBackground(Color.RED);
-		lblCurrencyConverter.setBounds(10, 145, 194, 18);
-		panel_2.add(lblCurrencyConverter);
-		
 		JButton btnConverter = new JButton("Converter");
 		btnConverter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -563,45 +816,45 @@ public class Kfc {
 			if(cmbCurrencyConverter.getSelectedItem().equals("Nigeria"))
 			{
 				String cConvert1 = String.format("N %.2f", British_Pound * Nigerian_Naria);
-				lblCurrencyConverter.setText(cConvert1);
+				lblCurrencyConverters.setText(cConvert1);
 			}
 			
 			if(cmbCurrencyConverter.getSelectedItem().equals("USA"))
 			{
 				String cConvert2 = String.format("$ %.2f", British_Pound * US_Dollar);
-				lblCurrencyConverter.setText(cConvert2);
+				lblCurrencyConverters.setText(cConvert2);
 			}
 			
 			
 			if(cmbCurrencyConverter.getSelectedItem().equals("Kenyan"))
 			{
 				String cConvert3 = String.format("KS %.2f", British_Pound * Kenyan_Shilling);
-				lblCurrencyConverter.setText(cConvert3);
+				lblCurrencyConverters.setText(cConvert3);
 			}
 			
 			
 			if(cmbCurrencyConverter.getSelectedItem().equals("Brazil"))
 			{
 				String cConvert4 = String.format("Bra %.2f", British_Pound * Brazilian_Real);
-				lblCurrencyConverter.setText(cConvert4);
+				lblCurrencyConverters.setText(cConvert4);
 			}
 			
 			if(cmbCurrencyConverter.getSelectedItem().equals("Canada"))
 			{
 				String cConvert5 = String.format("C$ %.2f", British_Pound * Canadian_Dollar);
-				lblCurrencyConverter.setText(cConvert5);
+				lblCurrencyConverters.setText(cConvert5);
 			}
 			
 			if(cmbCurrencyConverter.getSelectedItem().equals("Philippine"))
 			{
 				String cConvert6 = String.format("PHP %.2f", British_Pound * Philippine_Peso);
-				lblCurrencyConverter.setText(cConvert6);
+				lblCurrencyConverters.setText(cConvert6);
 			}
 			
 			if(cmbCurrencyConverter.getSelectedItem().equals("Indonesia"))
 			{
 				String cConvert7 = String.format("INR %.2f", British_Pound * Indonesiah_Rupiah);
-				lblCurrencyConverter.setText(cConvert7);
+				lblCurrencyConverters.setText(cConvert7);
 			}
 			}
 		});
@@ -627,6 +880,17 @@ public class Kfc {
 		horizontalGlue.setBounds(10, 194, -682, -125);
 		panel_2.add(horizontalGlue);
 		
+		lblCurrencyConverters = new JTextField();
+		lblCurrencyConverters.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCurrencyConverters.setForeground(Color.BLACK);
+		lblCurrencyConverters.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblCurrencyConverters.setEditable(false);
+		lblCurrencyConverters.setColumns(10);
+		lblCurrencyConverters.setBorder(new LineBorder(new Color(0, 0, 0), 1));
+		lblCurrencyConverters.setBackground(SystemColor.menu);
+		lblCurrencyConverters.setBounds(10, 141, 194, 20);
+		panel_2.add(lblCurrencyConverters);
+		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(10, 519, 919, 68);
 		frame.getContentPane().add(panel_3);
@@ -636,137 +900,7 @@ public class Kfc {
 		JButton btnReceipt = new JButton("Receipt");
 		btnReceipt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				double cTotal1 = Double.parseDouble(lblCostMeal.getText());
-				double cTotal2 = Double.parseDouble(lblCostDelivery.getText());
-				double cTotal3 = Double.parseDouble(lblCostDrinks.getText());
-				double AllTotal = (cTotal1 + cTotal2 + cTotal3)/100;
-				
-				if(chkTax.isSelected())
-				{
-					String iTotal = String.format("%.2f", AllTotal);
-					lblTax.setText(iTotal);
-				}
-				
-				
-				//-----------------------------------Total--------------------------------
-				
-				double Drinks = Double.parseDouble(txtQty.getText());
-				double Tea = 10.39 * Drinks;
-				double Ice_Tea = 11.39 * Drinks;
-				double Coffee = 12.39 * Drinks;
-				double Ice_Coffee = 14.39 * Drinks;
-				double Cola = 16.39 * Drinks;
-				double Coke = 7.39 * Drinks;
-				double Orange = 8.39 * Drinks;
-				double Apple_justice = 15.39 * Drinks;
-				
-				double iChickenBurgerPrice = 15.39;
-				double iChickenBurgerMealPrice = 20.39;
-				double iCheeseBurgerPrice = 25.39;
-				
-				double cTotal4 = Double.parseDouble(lblTax.getText());
-				
-				double SubTotal = ((cTotal1 + cTotal2 + cTotal3) - (cTotal4));
-				String iSubTotal = String.format("%.2f", SubTotal);
-				lblSubTotal.setText(iSubTotal);
-				
-				double iAllTotal = (cTotal1 + cTotal2 + cTotal3 + cTotal4);
-				String iTotal = String.format("%.2f", iAllTotal);
-				lblTotal.setText(iTotal);
-				
-				String iTaxTotal = String.format("%.2f", cTotal4);
-				lblTax.setText(iTaxTotal);
-				
-				Date date = new Date();
-				
-				textArea.setText(textArea.getText() + "                                         \n");
-				textArea.setText(textArea.getText() + "                   KFC Restaurant\n");
-				textArea.setText(textArea.getText() + "                Rosebank Johannesburg\n");
-				textArea.setText(textArea.getText() + "                                         \n");
-				textArea.setText(textArea.getText() + "Date : " + date + "\n");
-				textArea.setText(textArea.getText() + "                                         \n");
-				textArea.setText(textArea.getText() + "Receipt #: 042586\n");
-				textArea.setText(textArea.getText() + "                                         \n");
-				
-				textArea.setText(textArea.getText() + "Chicken Burger : " + txtChickenBurger.getText() + " * " + iChickenBurgerPrice +"\n");
-				textArea.setText(textArea.getText() + "Chicken Burger Meal : " + txtChickenBurgerMeal.getText() + " * " + iChickenBurgerMealPrice +"\n");
-				textArea.setText(textArea.getText() + "Bacon & Cheese Burger : " + txtCheeseBurger.getText() + " * " + iCheeseBurgerPrice +"\n"); 
-				
-				
-				if(cmbDrink.getSelectedItem().equals("Apple juice"))
-				{
-					String cApple_Juice = String.format("%.2f", Apple_justice);
-					lblCostDrinks.setText(cApple_Juice);
-					textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Apple_justice + "\n");
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Coke"))
-				{
-					String cCoke = String.format("%.2f", Coke);
-					lblCostDrinks.setText(cCoke);
-					textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Coke + "\n");
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Cola"))
-				{
-					String cCola = String.format("%.2f", Cola);
-					lblCostDrinks.setText(cCola);
-					textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Cola + "\n");
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Ice Coffee"))
-				{
-					String cIce_Coffee = String.format("%.2f", Ice_Coffee);
-					lblCostDrinks.setText(cIce_Coffee);
-					textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Ice_Coffee + "\n");
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Ice Tea"))
-				{
-					String cIce_Tea = String.format("%.2f", Ice_Tea);
-					lblCostDrinks.setText(cIce_Tea);
-					textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Ice_Tea + "\n");
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Tea"))
-				{
-					String cTea = String.format("%.2f", Tea);
-					lblCostDrinks.setText(cTea);
-					textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Tea + "\n");
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Orange"))
-				{
-					String cOrange = String.format("%.2f", Orange);
-					lblCostDrinks.setText(cOrange);
-					textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Orange + "\n");
-				}
-				
-				if(cmbDrink.getSelectedItem().equals("Coffee"))
-				{
-					String cOrange = String.format("%.2f", Coffee);
-					lblCostDrinks.setText(cOrange);
-					textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + " * " + Coffee + "\n");
-				}
-				
-				if(cmbDrink.getSelectedItem().equals("Select a drink"))
-				{
-					lblCostDrinks.setText("0.00");
-					textArea.setText(textArea.getText() + "Drinks : " + txtQty.getText() + "* 0" + "\n");
-				}
-				
-				
-				textArea.setText(textArea.getText() + "                                         \n");
-				textArea.setText(textArea.getText() + "Cost of Drinks : " + lblCostDrinks.getText() + "\n");
-				textArea.setText(textArea.getText() + "Cost of Meal : " + lblCostMeal.getText() + "\n");
-				textArea.setText(textArea.getText() + "Cost of Delivery : " + lblCostDelivery.getText() + "\n");
-				textArea.setText(textArea.getText() + "                                         \n");
-				textArea.setText(textArea.getText() + "Sub Total : " + iSubTotal + "\n");
-				textArea.setText(textArea.getText() + "Sale Tax : " + iTaxTotal + "\n");
-				textArea.setText(textArea.getText() + "Total : " + iTotal + "\n");
-				textArea.setText(textArea.getText() + "                                         \n");
-				textArea.setText(textArea.getText() + "                   THANK YOU\n");
-				
+				receipt();
 			}
 		});
 		btnReceipt.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -788,21 +922,8 @@ public class Kfc {
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				lblCostDrinks.setText(null);
-				lblCostMeal.setText(null);
-				lblCostDelivery.setText(null);
-				lblTax.setText(null);
-				lblSubTotal.setText(null);
-				lblTotal.setText(null);
-				lblCurrencyConverter.setText(null);
-				txtChickenBurger.setText(null);
-				txtChickenBurgerMeal.setText(null);
-				txtCheeseBurger.setText(null);
-				txtQty.setText(null);
-				txtCurrencyConverter.setText(null);
-				cmbDrink.setSelectedItem("Select a drink");
-				cmbCurrencyConverter.setSelectedItem("Choose One...");
-				
+			//calling method
+				reset();
 			}
 		});
 		btnReset.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -812,112 +933,15 @@ public class Kfc {
 		JButton btnTotal = new JButton("Total");
 		btnTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				textArea.setText(null);
 				
-				//Calling method Cost
-				Cost();
-				
-				//-----------------------------------Home Delivery--------------------------------
-				double iDelivery = 5.39;
-				if(chkHomeDelivery.isSelected())
-				{
-					String pDelivery = String.format("%.2f", iDelivery);
-					lblCostDelivery.setText(pDelivery);
-				}
-				else
-				{
-					lblCostDelivery.setText("0.00");
-				}
-				
-				//-----------------------------------Drinks--------------------------------
-				double Drinks = Double.parseDouble(txtQty.getText());
-				double Tea = 10.39 * Drinks;
-				double Ice_Tea = 11.39 * Drinks;
-				double Coffee = 12.39 * Drinks;
-				double Ice_Coffee = 14.39 * Drinks;
-				double Cola = 16.39 * Drinks;
-				double Coke = 7.39 * Drinks;
-				double Orange = 8.39 * Drinks;
-				double Apple_justice = 15.39 * Drinks;
-				
-				if(cmbDrink.getSelectedItem().equals("Apple juice"))
-				{
-					String cApple_Juice = String.format("%.2f", Apple_justice);
-					lblCostDrinks.setText(cApple_Juice);
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Coke"))
-				{
-					String cCoke = String.format("%.2f", Coke);
-					lblCostDrinks.setText(cCoke);
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Cola"))
-				{
-					String cCola = String.format("%.2f", Cola);
-					lblCostDrinks.setText(cCola);
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Ice Coffee"))
-				{
-					String cIce_Coffee = String.format("%.2f", Ice_Coffee);
-					lblCostDrinks.setText(cIce_Coffee);
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Ice Tea"))
-				{
-					String cIce_Tea = String.format("%.2f", Ice_Tea);
-					lblCostDrinks.setText(cIce_Tea);
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Tea"))
-				{
-					String cTea = String.format("%.2f", Tea);
-					lblCostDrinks.setText(cTea);
-				}
-				
-			    if(cmbDrink.getSelectedItem().equals("Orange"))
-				{
-					String cOrange = String.format("%.2f", Orange);
-					lblCostDrinks.setText(cOrange);
-				}
-				
-				if(cmbDrink.getSelectedItem().equals("Coffee"))
-				{
-					String cOrange = String.format("%.2f", Coffee);
-					lblCostDrinks.setText(cOrange);
-				}
-				
-				if(cmbDrink.getSelectedItem().equals("Select a drink"))
-				{
-					lblCostDrinks.setText("0.00");
-				}
-				
-				//-----------------------------------Tax Rate--------------------------------
-				double cTotal1 = Double.parseDouble(lblCostMeal.getText());
-				double cTotal2 = Double.parseDouble(lblCostDelivery.getText());
-				double cTotal3 = Double.parseDouble(lblCostDrinks.getText());
-				double AllTotal = (cTotal1 + cTotal2 + cTotal3)/100;
-				double cTotal4 = 0;
-				if(chkTax.isSelected())
-				{
-					String iTotalTax = String.format("%.2f", AllTotal);
-					lblTax.setText(iTotalTax);
-					cTotal4 = Double.parseDouble(lblTax.getText());
-				}
-				
-				
-				//-----------------------------------Total--------------------------------
-				double SubTotal = ((cTotal1 + cTotal2 + cTotal3) - (cTotal4));
-				String iSubTotal = String.format("%.2f", SubTotal);
-				lblSubTotal.setText(iSubTotal);
-				
-				double iAllTotal = (SubTotal + cTotal4);
-				String iTotal = String.format("%.2f", iAllTotal);
-				lblTotal.setText(iTotal);
-				
-				String iTaxTotal = String.format("%.2f", cTotal4);
-				lblTax.setText(iTaxTotal);
+			   //Calling methods
+				mealCost();
+				deliveryCost();
+				drinkCost();
+				taxCost();
+				totalCost();
 			}
 		});
 		btnTotal.setFont(new Font("Tahoma", Font.BOLD, 11));
